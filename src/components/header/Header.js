@@ -22,6 +22,20 @@ const Header = () => {
       key: "selection",
     },
   ]);
+  const [openOptions, setOpenOptions] = useState(false);
+  const [options, setOptions] = useState({
+    adult: 1,
+    childern: 0,
+    room: 1,
+  });
+  const handleOption = (name, operation) => {
+    setOptions((prev) => {
+      return {
+        ...prev,
+        [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
+      };
+    });
+  };
   return (
     <div className="header">
       <div className="headerContainer">
@@ -48,7 +62,7 @@ const Header = () => {
             <span>AirPort taxi</span>
           </div>
         </div>
-        <h1 className="headerTitle">Booking.com</h1>
+        <h1 className="headerTitle"> Take your favourite one</h1>
         <p className="headerDisc">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. A, illum.
           Voluptatibus magnam aliquam maiores consequatur quae, adipisci
@@ -76,8 +90,74 @@ const Header = () => {
             )}
           </div>
           <div className="headerSearchItem">
-            <FontAwesomeIcon icon={faPerson} />
-            <span className="headerSearchText">2 adults 2 children 1 room</span>
+            <FontAwesomeIcon icon={faPerson} className="headerIcon" />
+            <span
+              onClick={() => setOpenOptions(!openOptions)}
+              className="headerSearchText"
+            >{`${options.adult} adult . ${options.childern} childern . ${options.room} room`}</span>
+            {openOptions && (
+              <div className="options">
+                <div className="optionItem">
+                  <span className="optionText">Adult</span>
+                  <div className="optionCounter">
+                    <button
+                      disabled={options.adult <= 1}
+                      className="optionCounterButton"
+                      onClick={() => handleOption("adult", "d")}
+                    >
+                      -
+                    </button>
+                    <span className="optionCounterNumber">{options.adult}</span>
+                    <buttton
+                      className="optionCounterButton"
+                      onClick={() => handleOption("adult", "i")}
+                    >
+                      +
+                    </buttton>
+                  </div>
+                </div>
+                <div className="optionItem">
+                  <span className="optionText">Children</span>
+                  <div className="optionCounter">
+                    <button
+                      disabled={options.childern <= 0}
+                      className="optionCounterButton"
+                      onClick={() => handleOption("childern", "d")}
+                    >
+                      -
+                    </button>
+                    <span className="optionCounterNumber">
+                      {options.childern}
+                    </span>
+                    <buttton
+                      className="optionCounterButton"
+                      onClick={() => handleOption("childern", "i")}
+                    >
+                      +
+                    </buttton>
+                  </div>
+                </div>
+                <div className="optionItem">
+                  <span className="optionText">Room</span>
+                  <div className="optionCounter">
+                    <button
+                      disabled={options.room <= 1}
+                      className="optionCounterButton"
+                      onClick={() => handleOption("room", "d")}
+                    >
+                      -
+                    </button>
+                    <span className="optionCounterNumber">{options.room}</span>
+                    <buttton
+                      className="optionCounterButton"
+                      onClick={() => handleOption("room", "i")}
+                    >
+                      +
+                    </buttton>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="headerSearchItem">
             <FontAwesomeIcon icon={faBed} />
